@@ -1,54 +1,116 @@
-"use client"
-import { useEffect, useState } from 'react';
-import { jobsAPI } from '../../../services/api';
-import { Trash2 } from 'lucide-react';
-import { toast } from 'react-toastify';
+"use client";
+
+import { useEffect, useState } from "react";
+import { jobsAPI } from "../../../services/api";
+import { Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function JobsPage() {
-    const [jobs, setJobs] = useState([]);
+  const [jobs, setJobs] = useState([]);
 
-    const fetchJobs = async () => {
-        const res = await jobsAPI.getAllJobs();
-        setJobs(res.data);
-    };
+  const fetchJobs = () =>
+    jobsAPI.getAllJobs().then((res) => setJobs(res.data));
 
-    const deleteJob = async (id: string) => {
-        if(confirm("Are you sure you want to delete this job?")) {
-            await jobsAPI.deleteJob(id);
-            toast.success("Job deleted successfully");
-            fetchJobs();
-        }
-    };
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
-    useEffect(() => { fetchJobs(); }, []);
+  const del = async (id: string) => {
+    if (!confirm("Delete this listing?")) return;
 
-    return (
-        <div className="p-6">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Manage All Jobs</h2>
-            <div className="bg-white shadow rounded-xl overflow-hidden border">
-                <table className="w-full text-left">
-                    <thead className="bg-gray-50 border-b">
-                        <tr>
-                            <th className="p-4">Title</th>
-                            <th className="p-4">Employer</th>
-                            <th className="p-4">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {jobs.map((job: any) => (
-                            <tr key={job._id} className="border-b hover:bg-gray-50">
-                                <td className="p-4 font-medium">{job.title}</td>
-                                <td className="p-4 text-gray-600">{job.employerId?.name || 'N/A'}</td>
-                                <td className="p-4">
-                                    <button onClick={() => deleteJob(job._id)} className="text-red-500 hover:bg-red-50 p-2 rounded-full transition">
-                                        <Trash2 size={20} />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+    try {
+      await jobsAPI.deleteJob(id);
+      toast.success("Job Deleted");
+      fetchJobs();
+    } catch (err) {
+      toast.error("Failed to delete job");
+    }
+  };
+
+  return (
+    <div className="p-3 sm:p-5 lg:p-8">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-black text-[#00004d]">
+          Manage All Jobs
+        </h1>
+
+        <p className="text-gray-400 text-sm mt-1">
+          View and manage all job listings
+        </p>
+      </div>
+      <div className="hidden lg:block bg-white rounded-[2.5rem] shadow-sm border border-gray-50 overflow-hidden">
+        <table className="w-full text-left">
+          <thead className="bg-gray-50 text-[10px] font-black uppercase tracking-widest text-[#00004d]">
+            <tr>
+              <th className="p-6">Job Title</th>
+              <th className="p-6">Company</th>
+              <th className="p-6 text-center">Action</th>
+            </tr>
+          </thead>
+
+          <tbody className="divide-y divide-gray-50">
+            {jobs.map((j: any) => (
+              <tr
+                key={j._id}
+                className="hover:bg-slate-50 transition-colors font-bold text-gray-600"
+              >
+                <td className="p-6 text-[#00004d]">
+                  {j.category}
+                </td>
+
+                <td className="p-6">
+                  {j.company || "N/A"}
+                </td>
+
+                <td className="p-6">
+                  <div className="flex justify-center gap-3">
+                    <button
+                      onClick={() => del(j._id)}
+                      className="p-3 text-red-500 hover:bg-red-50 rounded-2xl transition-all hover:scale-105"
+                    >
+                      <Trash2 size={20} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="grid gap-4 lg:hidden">
+        {jobs.map((j: any) => (
+          <div
+            key={j._id}
+            className="bg-white rounded-3xl p-5 shadow-sm border border-gray-100"
+          >
+            <div className="mb-4">
+              <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-1">
+                Job Title
+              </p>
+
+              <h2 className="text-lg font-bold text-[#00004d]">
+                {j.category}
+              </h2>
             </div>
-        </div>
-    );
+            <div className="mb-5">
+              <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold mb-1">
+                Company
+              </p>
+
+              <p className="font-semibold text-gray-700">
+                {j.company || "N/A"}
+              </p>
+            </div>
+            <button
+              onClick={() => del(j._id)}
+              className="w-full py-3 rounded-2xl bg-red-500 text-white flex items-center justify-center gap-2 font-bold hover:opacity-90 transition"
+            >
+              <Trash2 size={18} />
+              Delete Job
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

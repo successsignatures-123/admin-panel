@@ -6,21 +6,20 @@ export const authAPI = {
 };
 
 export const statsAPI = {
-    getAllStats: () => api.get('/stats')
-}
+    getAllStats: () => api.get('/admin/stats')
+};
 
 export const jobsAPI = {
-  getAllJobs: () => api.get('/jobs'),
-  deleteJob: (id: string) => api.delete(`/jobs/${id}`), 
+    getAllJobs: () => api.get('/jobs'),
+    deleteJob: (id: string) => api.delete(`/admin/jobs/${id}`)
+};
+
+export const applicationsAPI = {
+    getEmployerApplicants: () => api.get('/applications/all-applicants'),
+    updateApplicationStatus: (id: string, status: string) => api.patch(`/admin/applications/status/${id}`, { status })
 };
 
 export const usersAPI = {
-  getAllUsers: () => api.get('/users'),
-  toggleEmployerStatus: (id: string, status: boolean) => api.patch(`/users/approve-employer/${id}`, { status }),
-  deleteUser: (id: string) => api.delete(`/users/${id}`)
-};
-
-export const applicationsAPI = {  
-  getAllApplications: () => api.get('/applications'),
-  updateApplicationStatus: (id: string, status: string) => api.patch(`/applications/status/${id}`, { status })
+    getAllUsers: () => api.get('/admin/users'),
+    toggleEmployerStatus: (id: string, status: boolean) => api.patch(`/admin/users/approve-employer/${id}`, { status })
 };

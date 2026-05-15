@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://easyjobspk.onrender.com/api',
+  baseURL: 'https://easyjobspk.onrender.com/api', 
 });
 
 api.interceptors.request.use((config) => {

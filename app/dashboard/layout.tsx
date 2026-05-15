@@ -1,10 +1,67 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Sidebar from "../components/Sidebar";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const router = useRouter();
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const userStr = localStorage.getItem("user");
+
+    if (!token || !userStr) {
+      router.push("/login");
+    } else {
+      const user = JSON.parse(userStr);
+
+      if (user.role !== "admin") {
+        localStorage.clear();
+        router.push("/login");
+      } else {
+        setIsAuth(true);
+      }
+    }
+  }, [router]);
+  if (!isAuth) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-[#fcfcfc] px-4">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-[#00004d]/20 border-t-[#00004d] rounded-full animate-spin mx-auto mb-4" />
+
+          <h2 className="text-lg sm:text-xl font-black text-[#00004d]">
+            Authenticating Admin...
+          </h2>
+
+          <p className="text-sm text-gray-400 mt-1">
+            Please wait while we verify access
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex bg-gray-100 min-h-screen">
+    <div className="bg-[#fcfcfc] min-h-screen">
       <Sidebar />
-      <main className="flex-1 ml-64 p-8">
+      <main
+        className="
+          min-h-screen
+          transition-all duration-300
+          
+          lg:ml-72
+          
+          pt-24 lg:pt-10
+          px-3 sm:px-5 lg:px-10
+          pb-6
+        "
+      >
         {children}
       </main>
     </div>
