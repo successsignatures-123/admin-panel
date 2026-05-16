@@ -22,8 +22,9 @@ function LoginContent() {
       const res = await authAPI.login({ email, password });
       
       const user = res.data.user;
-      if (user.role !== 'admin') {
-        toast.error("Access Denied: You are not an Admin!");
+      const allowedRoles = ['cheifAdmin', 'subAdmin'];
+      if (!allowedRoles.includes(user.role)) {
+        toast.error("Access Denied: Restricted Area!");
         setLoading(false);
         return;
       }
@@ -31,14 +32,14 @@ function LoginContent() {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(user));
       
-      toast.success("Welcome, Admin!");
+      toast.success(`Welcome, ${user.role === 'cheifAdmin' ? 'Chief Admin' : 'Admin'}!`);
 
       setTimeout(() => {
         router.push("/dashboard");
       }, 1000);
       
     } catch (err: any) {
-      toast.error(err.response?.data?.message || "Invalid Admin credentials");
+      toast.error(err.response?.data?.message || "Invalid credentials");
     } finally {
       setLoading(false);
     }
@@ -62,7 +63,7 @@ function LoginContent() {
 
         <div className="text-center mb-10">
           <h1 className="text-3xl font-black text-[#00004d] mb-2 tracking-tighter">Admin Login</h1>
-          <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">Portal Management</p>
+          <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">Secure Access Portal</p>
         </div>
 
         <form className="space-y-6" onSubmit={handleLogin}>
@@ -94,12 +95,6 @@ function LoginContent() {
             {!loading && <ArrowRight size={18} />}
           </button>
         </form>
-
-        <div className="mt-10 text-center border-t pt-8 border-gray-50">
-          <p className="text-gray-400 font-bold text-[10px] tracking-widest uppercase">
-            Not an Admin? <Link href="/register" className="text-[#00004d] font-black hover:underline ml-1">REGISTER HERE</Link>
-          </p>
-        </div>
       </motion.div>
     </div>
   );

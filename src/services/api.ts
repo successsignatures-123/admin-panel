@@ -5,6 +5,13 @@ export const authAPI = {
   register: (data: any) => api.post('/auth/register', data),
 };
 
+export const adminAPI = {
+    getAdmins: () => api.get('/admin/admins'),
+    createAdmin: (data: any) => api.post('/admin/admins', data),
+    updateAdmin: (id: string, data: any) => api.put(`/admin/admins/${id}`, data),
+    deleteAdmin: (id: string) => api.delete(`/admin/admins/${id}`),
+};
+
 export const statsAPI = {
     getAllStats: () => api.get('/admin/stats'),
     getGraphStats: () => api.get('/admin/graph-stats'),
@@ -23,5 +30,6 @@ export const applicationsAPI = {
 
 export const usersAPI = {
     getAllUsers: () => api.get('/admin/users'),
-    toggleEmployerStatus: (id: string, status: boolean) => api.patch(`/admin/users/approve-employer/${id}`, { status })
+    toggleEmployerStatus: (id: string, status: boolean) => api.patch(`/admin/users/approve-employer/${id}`, { status }),
+    deleteUser: (id: string) => api.delete(`/admin/users/${id}`)
 };
