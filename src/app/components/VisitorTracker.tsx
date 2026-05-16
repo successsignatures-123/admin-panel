@@ -12,7 +12,7 @@ export default function VisitorTracker() {
         const geo = await res.json();
         
         const name = localStorage.getItem("userName") || "Admin Visitor";
-        const role = localStorage.getItem("role") || "Browsing Jobs";
+        const role = localStorage.getItem("role") || "Browsing";
         
         const locationStr = (geo && geo.city) 
           ? `${geo.city}, ${geo.country_name}` 

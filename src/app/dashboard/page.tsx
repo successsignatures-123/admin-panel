@@ -101,7 +101,7 @@ export default function DashboardPage() {
 
             {visitors.length > 0 && (
                <div className="mt-8 p-3 bg-[#00004d] rounded-xl text-center shadow-lg">
-                  <p className="text-white text-xs font-bold uppercase tracking-widest">Total Live: {visitors.length}</p>
+                  <p className="text-white text-xs font-bold tracking-widest">Total Live: {visitors.length}</p>
                </div>
             )}
           </div>
