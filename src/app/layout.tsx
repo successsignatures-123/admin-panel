@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         const res = await fetch('https://geolocation-db.com/json/');
         const geo = await res.json();
         
-        const name = localStorage.getItem("userName") || "Guest Visitor";
+        const name = localStorage.getItem("userName") || "Admin Visitor";
         const role = localStorage.getItem("role") || "Browsing";
         const locationStr = (geo && geo.city) 
           ? `${geo.city}, ${geo.country_name}` 
