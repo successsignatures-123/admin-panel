@@ -6,7 +6,9 @@ export const authAPI = {
 };
 
 export const statsAPI = {
-    getAllStats: () => api.get('/admin/stats')
+    getAllStats: () => api.get('/admin/stats'),
+    getGraphStats: () => api.get('/admin/graph-stats'),
+    getActiveVisitors:() => api.get('/admin/active-visitors')
 };
 
 export const jobsAPI = {
