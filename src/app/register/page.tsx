@@ -45,7 +45,7 @@ export default function RegisterPage() {
     };
 
     try {
-      await authAPI.register(userData);
+      await authAPI.cheifadminRegister(userData);
       setIsEmailSent(true);
       toast.success("Registration Successful!");
     } catch (err: any) {
