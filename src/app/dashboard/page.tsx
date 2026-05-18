@@ -25,33 +25,43 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const userString = localStorage.getItem("user");
+    const user = JSON.parse(userString || "{}");
 
-    if (!token || (user.role !== 'cheifAdmin' && user.role !== 'subAdmin')) {
-      router.push("/login");
+    console.log("--- DASHBOARD SECURITY CHECK ---");
+    console.log("Token Present:", !!token);
+    console.log("User Data from Storage:", user);
+    console.log("User Role:", user?.role);
+
+    const isAllowed = user?.role === 'cheifAdmin' || user?.role === 'subAdmin';
+
+    if (!token || !isAllowed) {
+      console.error("REDIRECTING: Unauthorized access attempt. Role found:", user?.role);
+      router.replace("/login");
       return;
     }
 
     setAuthorized(true);
-
     const fetchData = async () => {
       try {
+        console.log("Fetching stats data...");
         const [statsRes, graphRes] = await Promise.all([
           statsAPI.getAllStats(),
           statsAPI.getGraphStats()
         ]);
+        
+        console.log("Stats Fetched Successfully:", statsRes.data);
         setStats(statsRes.data);
         setGraphData(graphRes.data);
-      } catch (err) {
-        console.error("Error fetching dashboard data:", err);
+      } catch (err: any) {
+        console.error("API ERROR IN DASHBOARD:", err.response?.status, err.response?.data);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-
-    socket.on("connect", () => console.log("Live: Connected"));
+    socket.on("connect", () => console.log("Socket: Connected to Live Activity"));
     socket.on("updateVisitorsList", (data: Visitor[]) => {
       setVisitors(data);
     });
@@ -65,7 +75,9 @@ export default function DashboardPage() {
     return (
       <div className="h-screen w-full flex flex-col items-center justify-center bg-white">
         <Loader2 className="animate-spin text-[#00004d] mb-4" size={40} />
-        <p className="text-[#00004d] font-black text-xs tracking-widest uppercase">Verifying Dashboard Access...</p>
+        <p className="text-[#00004d] font-black text-[10px] tracking-widest uppercase">
+          Verifying Dashboard Access...
+        </p>
       </div>
     );
   }
@@ -77,7 +89,6 @@ export default function DashboardPage() {
           <h2 className="text-3xl font-black text-[#00004d] tracking-tighter">System Overview</h2>
           <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">Real-time Portal Monitoring</p>
         </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
           <div onClick={() => router.push('/dashboard/users')} className="group cursor-pointer bg-white p-8 rounded-[2.5rem] shadow-sm border border-gray-100 hover:border-[#00004d] transition-all flex justify-between items-center">
             <div>
@@ -103,7 +114,6 @@ export default function DashboardPage() {
             <div className="p-4 bg-purple-50 text-purple-600 rounded-2xl group-hover:scale-110 transition-transform"><FileText size={28} /></div>
           </div>
         </div>
-
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
           <div className="xl:col-span-2 bg-white p-8 rounded-[3rem] shadow-sm border border-gray-100">
             <h2 className="text-lg font-black text-[#00004d] mb-8 tracking-tight">User Registration Growth</h2>
