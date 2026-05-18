@@ -15,13 +15,13 @@ export default function AdminLayout({
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userStr = localStorage.getItem("user");
-
     if (!token || !userStr) {
       router.push("/login");
     } else {
       const user = JSON.parse(userStr);
+      const allowedRoles = ["cheifAdmin", "subAdmin"];
 
-      if (user.role !== "admin") {
+      if (!allowedRoles.includes(user.role)) {
         localStorage.clear();
         router.push("/login");
       } else {
@@ -29,6 +29,7 @@ export default function AdminLayout({
       }
     }
   }, [router]);
+
   if (!isAuth) {
     return (
       <div className="h-screen flex items-center justify-center bg-[#fcfcfc] px-4">
@@ -39,8 +40,8 @@ export default function AdminLayout({
             Authenticating Admin...
           </h2>
 
-          <p className="text-sm text-gray-400 mt-1">
-            Please wait while we verify access
+          <p className="text-sm text-gray-400 mt-1 font-bold uppercase tracking-widest">
+            Verifying secure access
           </p>
         </div>
       </div>
@@ -54,9 +55,7 @@ export default function AdminLayout({
         className="
           min-h-screen
           transition-all duration-300
-          
           lg:ml-72
-          
           pt-24 lg:pt-10
           px-3 sm:px-5 lg:px-10
           pb-6
