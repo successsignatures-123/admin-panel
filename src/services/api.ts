@@ -20,9 +20,10 @@ export const statsAPI = {
 
 export const jobsAPI = {
     getAllJobs: () => api.get('/jobs'),
-    deleteJob: (id: string) => api.delete(`/admin/jobs/${id}`)
+    getJobById: (id: string) => api.get(`/jobs/${id}`),
+    deleteJob: (id: string) => api.delete(`/admin/jobs/${id}`),
+    updateJobStatus: (id: string, status: string) => api.patch(`/admin/jobs/status/${id}`, { status })
 };
-
 export const applicationsAPI = {
     getEmployerApplicants: () => api.get('/applications/all-applicants'),
     updateApplicationStatus: (id: string, status: string) => api.patch(`/admin/applications/status/${id}`, { status })

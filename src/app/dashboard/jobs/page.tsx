@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { jobsAPI } from "../../../services/api";
-import { Trash2 } from "lucide-react";
+import { Eye, Trash2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function JobsPage() {
@@ -64,9 +65,15 @@ export default function JobsPage() {
 
                 <td className="p-6">
                   <div className="flex justify-center gap-3">
+                    <Link
+                      href={`/admins/jobs/${j._id}`}
+                      className="p-3 text-blue-500 hover:bg-blue-50 rounded-2xl transition-all"
+                    >
+                      <Eye size={20} />
+                    </Link>
                     <button
                       onClick={() => del(j._id)}
-                      className="p-3 text-red-500 hover:bg-red-50 rounded-2xl transition-all hover:scale-105"
+                      className="p-3 text-red-500 hover:bg-red-50 rounded-2xl transition-all"
                     >
                       <Trash2 size={20} />
                     </button>
