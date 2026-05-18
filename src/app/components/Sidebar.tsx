@@ -66,7 +66,7 @@ export default function Sidebar() {
               EASY<span className="text-[#5DBB63]">JOBS</span>
             </h1>
             <p className="text-[10px] font-black text-blue-300 tracking-[0.3em] uppercase mt-1">
-              {userRole === "cheifAdmin" ? "Chief Admin" : "Sub Admin"}
+              {userRole === "cheifAdmin" ? "Cheif Admin" : "Sub Admin"}
             </p>
           </div>
           <button className="lg:hidden mb-8" onClick={() => setIsOpen(false)}><X size={28} /></button>

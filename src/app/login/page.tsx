@@ -32,7 +32,7 @@ function LoginContent() {
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(user));
       
-      toast.success(`Welcome, ${user.role === 'cheifAdmin' ? 'Chief Admin' : 'Admin'}!`);
+      toast.success(`Welcome, ${user.role === 'cheifAdmin' ? 'Cheif Admin' : 'Admin'}!`);
 
       setTimeout(() => {
         router.push("/dashboard");
