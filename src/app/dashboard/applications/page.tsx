@@ -43,9 +43,9 @@ export default function ApplicationsPage() {
               <tr key={app._id} className="hover:bg-slate-50/50 transition-colors">
                 <td className="p-6">
                   <p className="font-bold text-[#00004d]">{app.fullName}</p>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase">{app.email}</p>
+                  <p className="text-[10px] text-gray-400 font-bold">{app.email}</p>
                 </td>
-                <td className="p-6 font-bold text-gray-600">{app.job?.title || "Direct Application"}</td>
+                <td className="p-6 font-bold text-gray-600">{app.category}</td>
                 <td className="p-6">
                   <span className={`px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider ${
                     app.status === "shortlisted" ? "bg-green-50 text-green-600" : 
