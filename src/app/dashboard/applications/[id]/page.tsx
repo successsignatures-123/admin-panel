@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { applicationsAPI } from "../../../../services/api";
 import toast from "react-hot-toast";
-import { Check, X, Trash2, ArrowLeft, Phone, Mail, MapPin, Briefcase, GraduationCap } from "lucide-react";
+import { ArrowLeft, Phone, Mail, MapPin, GraduationCap } from "lucide-react";
 
 export default function ApplicationDetails() {
   const { id } = useParams();
@@ -64,9 +64,9 @@ export default function ApplicationDetails() {
             </div>
           </div>
           <div className="flex gap-3">
-             <button onClick={() => handleAction("shortlisted")} className="bg-green-500 p-4 rounded-2xl hover:bg-green-600 transition shadow-lg"><Check /></button>
-             <button onClick={() => handleAction("rejected")} className="bg-orange-500 p-4 rounded-2xl hover:bg-orange-600 transition shadow-lg"><X /></button>
-             <button onClick={handleDelete} className="bg-red-600 p-4 rounded-2xl hover:bg-red-700 transition shadow-lg"><Trash2 /></button>
+             <button onClick={() => handleAction("shortlisted")} className="bg-green-500 p-4 rounded-2xl hover:bg-green-600 transition shadow-lg">Accept</button>
+             <button onClick={() => handleAction("rejected")} className="bg-orange-500 p-4 rounded-2xl hover:bg-orange-600 transition shadow-lg">Reject</button>
+             <button onClick={handleDelete} className="bg-red-600 p-4 rounded-2xl hover:bg-red-700 transition shadow-lg">Delete</button>
           </div>
         </div>
 
