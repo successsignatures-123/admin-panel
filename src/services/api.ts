@@ -24,9 +24,12 @@ export const jobsAPI = {
     deleteJob: (id: string) => api.delete(`/admin/jobs/${id}`),
     updateJobStatus: (id: string, status: string) => api.patch(`/admin/jobs/status/${id}`, { status })
 };
+
 export const applicationsAPI = {
     getEmployerApplicants: () => api.get('/applications/all-applicants'),
-    updateApplicationStatus: (id: string, status: string) => api.patch(`/admin/applications/status/${id}`, { status })
+    getSingleApplication: (id: string) => api.get(`/applications/${id}`),
+    updateApplicationStatus: (id: string, status: string) => api.patch(`/applications/status/${id}`, { status }),
+    deleteApplication: (id: string) => api.delete(`/applications/${id}`)
 };
 
 export const usersAPI = {

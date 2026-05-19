@@ -66,7 +66,7 @@ export default function JobsPage() {
                 <td className="p-6">
                   <div className="flex justify-center gap-3">
                     <Link
-                      href={`/admins/jobs/${j._id}`}
+                      href={`/dashboard/jobs/${j._id}`}
                       className="p-3 text-blue-500 hover:bg-blue-50 rounded-2xl transition-all"
                     >
                       <Eye size={20} />
