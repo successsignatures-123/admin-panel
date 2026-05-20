@@ -22,7 +22,7 @@ export const jobsAPI = {
     getAllJobs: () => api.get('/jobs'),
     getJobById: (id: string) => api.get(`/jobs/${id}`),
     deleteJob: (id: string) => api.delete(`/admin/jobs/${id}`),
-    updateJobStatus: (id: string, status: string) => api.patch(`/admin/jobs/status/${id}`, { status })
+    updateJobStatus: (id: string, status: string) => api.patch(`/jobs/status/${id}`, { status })
 };
 
 export const applicationsAPI = {
