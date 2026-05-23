@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { jobsAPI } from "../../../../services/api";
-import { CheckCircle, XCircle, ArrowLeft, Briefcase, MapPin, DollarSign, GraduationCap } from "lucide-react";
+import { CheckCircle, XCircle, ArrowLeft, Briefcase, MapPin, DollarSign, GraduationCap, NotebookPen } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function JobDetailsPage() {
@@ -65,6 +65,12 @@ export default function JobDetailsPage() {
             </div>
             
             <div className="flex gap-3 w-full md:w-auto">
+              <button
+                onClick={() => handleStatusUpdate('pending')}
+                className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-yellow-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-yellow-700 transition shadow-lg shadow-yellow-100"
+              >
+                <NotebookPen size={18} /> Pending
+              </button>
               <button
                 onClick={() => handleStatusUpdate('active')}
                 className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-green-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-green-700 transition shadow-lg shadow-green-100"
